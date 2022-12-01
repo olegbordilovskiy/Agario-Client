@@ -5,15 +5,15 @@
 using namespace sf;
 
 class Enemy {
-private:
+public:
 	float x;
 	float y;
 	float size;
 	float speed;
-public:
+
 	CircleShape pl_form;
 
-	Enemy(float X, float Y, float Size, float Speed, Color color);
+	//Enemy(float X, float Y, float Size, float Speed, Color color);
 
 	void pos(float X, float Y);
 

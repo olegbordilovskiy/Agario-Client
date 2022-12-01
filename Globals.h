@@ -1,6 +1,7 @@
 #pragma once
 #include "Food.h"
 #include "SFML/Graphics.hpp"
+
 using namespace sf;
 
 const int foodAmount = 200;
@@ -15,6 +16,8 @@ extern float lineWidth;
 
 extern RectangleShape background;
 extern RectangleShape lines;
+extern RectangleShape columns;
+extern CircleShape foodCircle;
 
 extern Food foodCoord[foodAmount];
 extern Color colorArray[5];

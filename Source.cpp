@@ -1,19 +1,14 @@
 #include "Library.h"
 
 using namespace sf;
-
-RectangleShape columns(Vector2f(lineWidth, map_height));
-CircleShape foodCircle;
-
-Event event;
-ContextSettings settings;
+Enemy enemyArr[9];
 
 int main() {
 
+	Event event;
 	RenderWindow window(VideoMode(1000, 1000), "Agar.io", Style::Default);
 	window.setFramerateLimit(100);
 	srand(time(NULL));
-
 	view.reset(FloatRect(0, 0, 250, 250));
 
 	drawingMap();
@@ -30,17 +25,19 @@ int main() {
 
 	Player player(rand() % 900 + 50, rand() % 900, start_size, speedP, colorArray[rand() % 5]);
 
-	Enemy e1(rand() % 900 + 50, rand() % 900 + 50, rand() % 20 + 1, speedE, Color::Red);
-	Enemy e2(rand() % 900 + 50, rand() % 900 + 50, rand() % 20 + 1, speedE, Color::Yellow);
-	Enemy e3(rand() % 900 + 50, rand() % 900 + 50, rand() % 1 + 1, speedE, Color::Green);
-	Enemy e4(rand() % 900 + 50, rand() % 900 + 50, rand() % 20 + 1, speedE, Color::Magenta);
-	Enemy e5(rand() % 900 + 50, rand() % 900 + 50, rand() % 20 + 1, speedE, Color::Cyan);
-	Enemy e6(rand() % 900 + 50, rand() % 900 + 50, rand() % 20 + 1, speedE, Color::Transparent);
+	for (int i = 0; i <= 8; i++) {
+		enemyArr[i].x = rand() % 900 + 50;
+		enemyArr[i].y = rand() % 900 + 50;
+		enemyArr[i].size = rand() % 50 + 1;
+		enemyArr[i].speed = speedE;
+		enemyArr[i].pl_form.setRadius(enemyArr[i].size);
+		enemyArr[i].pl_form.setFillColor(colorArray[rand() % 5]);
+		enemyArr[i].pl_form.setPosition(Vector2f(enemyArr[i].x, enemyArr[i].y));
+	}
 
 	bool flag = true;
 
 	Vector2f optimization = view.getSize();
-
 
 	while (window.isOpen())
 	{
@@ -54,20 +51,15 @@ int main() {
 		changeZoom();
 
 		player.move();
-		e1.move(player, e1);
-		e2.move(player, e2);
-		e3.move(player, e3);
-		e4.move(player, e4);
-		e5.move(player, e5);
-		e6.move(player, e6);
+
+		for (int i = 0; i <= 8; i++) {
+			enemyArr[i].move(player, enemyArr[i]);
+		}
 
 		player.eatingFood(player);
-		e1.eatingFood(e1);
-		e2.eatingFood(e2);
-		e3.eatingFood(e3);
-		e4.eatingFood(e4);
-		e5.eatingFood(e5);
-		e6.eatingFood(e6);
+		for (int i = 0; i <= 8; i++) {
+			enemyArr[i].eatingFood(enemyArr[i]);
+		}
 
 		window.setView(view);
 
@@ -105,20 +97,12 @@ int main() {
 
 		}
 
-
-		window.draw(e1.pl_form);
-		window.draw(e2.pl_form);
-		window.draw(e3.pl_form);
-		window.draw(e4.pl_form);
-		window.draw(e5.pl_form);
-		window.draw(e6.pl_form);
-
+		for (int i = 0; i <= 8; i++) {
+			window.draw(enemyArr[i].pl_form);
+		}
 
 		window.draw(player.pl_form);
-
-
 		window.display();
-
 	}
 
 	return 0;
