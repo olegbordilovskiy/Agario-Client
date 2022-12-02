@@ -10,7 +10,7 @@ public:
 	float y;
 	float size;
 	float speed;
-
+	bool life;
 	CircleShape pl_form;
 
 	//Enemy(float X, float Y, float Size, float Speed, Color color);

@@ -28,11 +28,12 @@ int main() {
 	for (int i = 0; i <= 8; i++) {
 		enemyArr[i].x = rand() % 900 + 50;
 		enemyArr[i].y = rand() % 900 + 50;
-		enemyArr[i].size = rand() % 50 + 1;
+		enemyArr[i].size = rand() % 10 + 1;
 		enemyArr[i].speed = speedE;
 		enemyArr[i].pl_form.setRadius(enemyArr[i].size);
 		enemyArr[i].pl_form.setFillColor(colorArray[rand() % 5]);
 		enemyArr[i].pl_form.setPosition(Vector2f(enemyArr[i].x, enemyArr[i].y));
+		enemyArr[i].life = true;
 	}
 
 	bool flag = true;
@@ -53,11 +54,17 @@ int main() {
 		player.move();
 
 		for (int i = 0; i <= 8; i++) {
+			eatingEnemy(player, enemyArr[i]);
+		}
+
+		for (int i = 0; i <= 8; i++) {
+			if (enemyArr[i].life == true)
 			enemyArr[i].move(player, enemyArr[i]);
 		}
 
 		player.eatingFood(player);
 		for (int i = 0; i <= 8; i++) {
+			if (enemyArr[i].life == true)
 			enemyArr[i].eatingFood(enemyArr[i]);
 		}
 
@@ -98,6 +105,7 @@ int main() {
 		}
 
 		for (int i = 0; i <= 8; i++) {
+			if (enemyArr[i].life == true)
 			window.draw(enemyArr[i].pl_form);
 		}
 

@@ -2,17 +2,6 @@
 #include "Enemy.h"
 using namespace sf;
 
-
-
-//Enemy::Enemy(float X, float Y, float Size, float Speed, Color color) {
-//	x = X;
-//	y = Y;
-//	size = Size;
-//	speed = Speed;
-//	pl_form.setRadius(size);
-//	pl_form.setFillColor(color);
-//}
-
 void Enemy::pos(float X, float Y) {
 	x = X;
 	y = Y;
