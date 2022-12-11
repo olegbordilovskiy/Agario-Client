@@ -32,6 +32,11 @@ void drawingMap() {
 
 }
 
+void drawingResults() {
+	/*results_background.setFillColor(Color(175, 238, 238));*/
+	results_background.setFillColor(Color::White);
+}
+
 bool isItVisible(Player p, float X, float Y) {
 	if (((X >= p.getPlayerCoordX() - 130 && X <= p.getPlayerCoordX()) || (X <= p.getPlayerCoordX() + 130 && X >= p.getPlayerCoordX()))
 		&& ((Y >= p.getPlayerCoordY() - 130 && Y <= p.getPlayerCoordY()) || (Y <= p.getPlayerCoordY() + 130 && Y >= p.getPlayerCoordY()))) return true;
@@ -51,5 +56,11 @@ void eatingEnemy(Player &p, Enemy &e) {
 		if ((((X2 >= X1 - S1) && (X2 <= X1)) || ((X2 <= X1 + S1) && (X2 >= X1))) && 
 			(((Y2 >= Y1 - S1) && (Y2 <= Y1)) || ((Y2 <= Y1 + S1) && (Y2 >= Y1))))
 			e.life = false;
+	}
+
+	if (S2 > S1) {
+		if ((((X2 >= X1 - S1) && (X2 <= X1)) || ((X2 <= X1 + S1) && (X2 >= X1))) &&
+			(((Y2 >= Y1 - S1) && (Y2 <= Y1)) || ((Y2 <= Y1 + S1) && (Y2 >= Y1))))
+			p.life = false;
 	}
 }

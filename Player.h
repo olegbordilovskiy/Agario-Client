@@ -3,18 +3,15 @@
 #include "View.h"
 #include "Globals.h"
 //#include "Enemy.h"
+//#include "PlayerAndEnemy.h"
 
 class Player {
-private:
+public:
 	float x;
 	float y;
 	float size;
 	float speed;
 	bool life;
-
-public:
-	Player(float X, float Y, float Size, float Speed, Color color);
-
 	CircleShape pl_form;
 
 	void move();
@@ -27,6 +24,6 @@ public:
 
 	void eatingFood(Player p);
 
-	void eatingEnemy();
+	//void eatingEnemy(Player& p, Enemy& e);
 
 };

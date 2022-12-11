@@ -15,6 +15,7 @@ extern float zoom;
 extern float lineWidth;
 
 extern RectangleShape background;
+extern RectangleShape results_background;
 extern RectangleShape lines;
 extern RectangleShape columns;
 extern CircleShape foodCircle;

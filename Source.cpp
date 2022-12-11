@@ -1,7 +1,6 @@
 #include "Library.h"
 
 using namespace sf;
-Enemy enemyArr[9];
 
 int main() {
 
@@ -10,6 +9,9 @@ int main() {
 	window.setFramerateLimit(100);
 	srand(time(NULL));
 	view.reset(FloatRect(0, 0, 250, 250));
+	Font font;
+	font.loadFromFile("resources\\impact2.ttf");
+	Text text("", font, 30);
 
 	drawingMap();
 
@@ -23,12 +25,19 @@ int main() {
 		foodCoord[i].color = colorArray[rand() % 5];
 	}
 
-	Player player(rand() % 900 + 50, rand() % 900, start_size, speedP, colorArray[rand() % 5]);
+	Player player;
+	player.x = rand() % 900 + 50;
+	player.y = rand() % 900 + 50;
+	player.size = start_size;
+	player.pl_form.setRadius(player.size);
+	player.speed = speedP;
+	player.pl_form.setFillColor(colorArray[rand() % 5]);
+	player.life = true;
 
 	for (int i = 0; i <= 8; i++) {
 		enemyArr[i].x = rand() % 900 + 50;
 		enemyArr[i].y = rand() % 900 + 50;
-		enemyArr[i].size = rand() % 10 + 1;
+		enemyArr[i].size = rand() % 50 + 1;
 		enemyArr[i].speed = speedE;
 		enemyArr[i].pl_form.setRadius(enemyArr[i].size);
 		enemyArr[i].pl_form.setFillColor(colorArray[rand() % 5]);
@@ -49,67 +58,84 @@ int main() {
 				window.close();
 		}
 
-		changeZoom();
+		while (player.life) {
 
-		player.move();
+			changeZoom();
 
-		for (int i = 0; i <= 8; i++) {
-			eatingEnemy(player, enemyArr[i]);
-		}
+			player.move();
 
-		for (int i = 0; i <= 8; i++) {
-			if (enemyArr[i].life == true)
-			enemyArr[i].move(player, enemyArr[i]);
-		}
-
-		player.eatingFood(player);
-		for (int i = 0; i <= 8; i++) {
-			if (enemyArr[i].life == true)
-			enemyArr[i].eatingFood(enemyArr[i]);
-		}
-
-		window.setView(view);
-
-		window.clear();
-
-		window.draw(background);
-		for (int i = 0; i < map_height; i += 10 + zoom) {
-			if (isItVisible(player, player.getPlayerCoordX() + 130, i)) {
-				window.draw(lines);
-				lines.setPosition(0, i);
-				lines.setSize(Vector2f(map_width, lineWidth));
+			for (int i = 0; i <= 8; i++) {
+				eatingEnemy(player, enemyArr[i]);
 			}
 
-		}
-
-		for (int i = 0; i < map_width; i += 10 + zoom) {
-			if (isItVisible(player, i, player.getPlayerCoordY() + 130)) {
-				window.draw(columns);
-				columns.setPosition(i, 0);
-				columns.setSize(Vector2f(lineWidth, map_height));
+			for (int i = 0; i <= 8; i++) {
+				if (enemyArr[i].life == true)
+					enemyArr[i].move(player, enemyArr[i]);
 			}
-		}
 
+			player.eatingFood(player);
+			for (int i = 0; i <= 8; i++) {
+				if (enemyArr[i].life == true)
+					enemyArr[i].eatingFood(enemyArr[i]);
+			}
 
-		for (int i = 0; i < foodAmount; i++) {
+			window.setView(view);
 
-			if (isItVisible(player, foodCoord[i].x, foodCoord[i].y)) {
-				if ((foodCoord[i].x != -100) && (foodCoord[i].y != -100)) {
-					foodCircle.setPosition(foodCoord[i].x, foodCoord[i].y);
-					foodCircle.setRadius(2);
-					foodCircle.setFillColor(foodCoord[i].color);
-					window.draw(foodCircle);
+			window.clear();
+
+			window.draw(background);
+			for (int i = 0; i < map_height; i += 10 + zoom) {
+				if (isItVisible(player, player.getPlayerCoordX() + 130, i)) {
+					window.draw(lines);
+					lines.setPosition(0, i);
+					lines.setSize(Vector2f(map_width, lineWidth));
+				}
+
+			}
+
+			for (int i = 0; i < map_width; i += 10 + zoom) {
+				if (isItVisible(player, i, player.getPlayerCoordY() + 130)) {
+					window.draw(columns);
+					columns.setPosition(i, 0);
+					columns.setSize(Vector2f(lineWidth, map_height));
 				}
 			}
 
-		}
 
-		for (int i = 0; i <= 8; i++) {
-			if (enemyArr[i].life == true)
-			window.draw(enemyArr[i].pl_form);
-		}
+			for (int i = 0; i < foodAmount; i++) {
 
-		window.draw(player.pl_form);
+				if (isItVisible(player, foodCoord[i].x, foodCoord[i].y)) {
+					if ((foodCoord[i].x != -100) && (foodCoord[i].y != -100)) {
+						foodCircle.setPosition(foodCoord[i].x, foodCoord[i].y);
+						foodCircle.setRadius(2);
+						foodCircle.setFillColor(foodCoord[i].color);
+						window.draw(foodCircle);
+					}
+				}
+
+			}
+
+			for (int i = 0; i <= 8; i++) {
+				if (enemyArr[i].life == true)
+					window.draw(enemyArr[i].pl_form);
+			}
+	
+			window.draw(player.pl_form);
+			window.display();
+		}
+		window.clear();
+		view.reset(FloatRect(0, 0, 1000, 1000));
+		window.setView(view);
+		drawingResults();
+		window.draw(results_background);
+
+		text.setString(L"Вас съели!");
+		text.setCharacterSize(150);
+		text.setFillColor(Color::Red);
+		text.setOutlineThickness(7);
+		text.setPosition(view.getCenter().x - 340, view.getCenter().y - 280);
+		window.draw(text);
+
 		window.display();
 	}
 

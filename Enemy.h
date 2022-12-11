@@ -2,7 +2,9 @@
 #include "SFML/Graphics.hpp"
 #include "Globals.h"
 #include "Player.h"
+//#include "PlayerAndEnemy.h"
 using namespace sf;
+
 
 class Enemy {
 public:
@@ -12,8 +14,6 @@ public:
 	float speed;
 	bool life;
 	CircleShape pl_form;
-
-	//Enemy(float X, float Y, float Size, float Speed, Color color);
 
 	void pos(float X, float Y);
 
@@ -27,6 +27,8 @@ public:
 
 	void eatingFood(Enemy p);
 
-
+	//void eatingEnemy(Player& p, Enemy& e);
 
 };
+
+extern Enemy enemyArr[9];
