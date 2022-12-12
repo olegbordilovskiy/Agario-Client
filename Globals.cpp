@@ -13,3 +13,5 @@ CircleShape foodCircle;
 
 Food foodCoord[foodAmount];
 Color colorArray[5] = { Color::Red, Color::Green, Color::Blue, Color::Magenta, Color::Cyan };
+
+

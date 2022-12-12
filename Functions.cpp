@@ -33,8 +33,8 @@ void drawingMap() {
 }
 
 void drawingResults() {
-	/*results_background.setFillColor(Color(175, 238, 238));*/
-	results_background.setFillColor(Color::White);
+	
+	results_background.setFillColor(Color(240, 128, 128));
 }
 
 bool isItVisible(Player p, float X, float Y) {
@@ -53,14 +53,14 @@ void eatingEnemy(Player &p, Enemy &e) {
 	float S2 = e.getPlayerSize();
 
 	if (S1 > S2) {
-		if ((((X2 >= X1 - S1) && (X2 <= X1)) || ((X2 <= X1 + S1) && (X2 >= X1))) && 
-			(((Y2 >= Y1 - S1) && (Y2 <= Y1)) || ((Y2 <= Y1 + S1) && (Y2 >= Y1))))
+		if ((((X2 <= X1) && (X2 >= X1 - S1)) || ((X2 >= X1) && (X2 <= X1 + S1))) &&
+			(((Y2 <= Y1) && (Y2 >= Y1 - S1)) || ((Y2 >= Y1) && (Y2 <= Y1 + S1))))
 			e.life = false;
 	}
 
-	if (S2 > S1) {
-		if ((((X2 >= X1 - S1) && (X2 <= X1)) || ((X2 <= X1 + S1) && (X2 >= X1))) &&
-			(((Y2 >= Y1 - S1) && (Y2 <= Y1)) || ((Y2 <= Y1 + S1) && (Y2 >= Y1))))
+	if (S1 < S2) {
+		if ((((X1 <= X2) && (X1 >= X2 - S2)) || ((X1 >= X2) && (X1 <= X2 + S2))) &&
+			(((Y1 <= Y2) && (Y1 >= Y2 - S2)) || ((Y1 >= Y2) && (Y1 <= Y2 + S2))))
 			p.life = false;
 	}
 }

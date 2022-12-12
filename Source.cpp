@@ -8,11 +8,13 @@ int main() {
 	RenderWindow window(VideoMode(1000, 1000), "Agar.io", Style::Default);
 	window.setFramerateLimit(100);
 	srand(time(NULL));
-	view.reset(FloatRect(0, 0, 250, 250));
 	Font font;
 	font.loadFromFile("resources\\impact2.ttf");
 	Text text("", font, 30);
 
+Begin:
+
+	view.reset(FloatRect(0, 0, 250, 250));
 	drawingMap();
 
 	lines.setFillColor(Color(192, 192, 192));
@@ -37,7 +39,7 @@ int main() {
 	for (int i = 0; i <= 8; i++) {
 		enemyArr[i].x = rand() % 900 + 50;
 		enemyArr[i].y = rand() % 900 + 50;
-		enemyArr[i].size = rand() % 50 + 1;
+		enemyArr[i].size =  20 + 1;
 		enemyArr[i].speed = speedE;
 		enemyArr[i].pl_form.setRadius(enemyArr[i].size);
 		enemyArr[i].pl_form.setFillColor(colorArray[rand() % 5]);
@@ -58,7 +60,7 @@ int main() {
 				window.close();
 		}
 
-		while (player.life) {
+		if (player.life) {
 
 			changeZoom();
 
@@ -122,21 +124,44 @@ int main() {
 	
 			window.draw(player.pl_form);
 			window.display();
+
 		}
-		window.clear();
-		view.reset(FloatRect(0, 0, 1000, 1000));
-		window.setView(view);
-		drawingResults();
-		window.draw(results_background);
 
-		text.setString(L"Вас съели!");
-		text.setCharacterSize(150);
-		text.setFillColor(Color::Red);
-		text.setOutlineThickness(7);
-		text.setPosition(view.getCenter().x - 340, view.getCenter().y - 280);
-		window.draw(text);
+		else 
+		{
+			window.clear();
+			view.reset(FloatRect(0, 0, 1000, 1000));
+			window.setView(view);
+			drawingResults();
+			window.draw(results_background);
 
-		window.display();
+			text.setString(L"Вас съели!");
+			text.setCharacterSize(150);
+			text.setFillColor(Color::Red);
+			text.setOutlineThickness(7);
+			text.setPosition(view.getCenter().x - 340, view.getCenter().y - 280);
+			window.draw(text);
+
+			text.setString(L"Нажмите ""R"" чтобы начать новую игру");
+			text.setCharacterSize(40);
+			text.setFillColor(Color::Black);
+			text.setOutlineThickness(0);
+			text.setPosition(view.getCenter().x - 300, view.getCenter().y - 70);
+			window.draw(text);
+
+			text.setString(L"Нажмите Esc чтобы выйти");
+			text.setCharacterSize(40);
+			text.setFillColor(Color::Black);
+			text.setOutlineThickness(0);
+			text.setPosition(view.getCenter().x - 300, view.getCenter().y);
+			window.draw(text);
+
+			window.display();
+			if (Keyboard::isKeyPressed(Keyboard::R))
+				goto Begin;
+			if (Keyboard::isKeyPressed(Keyboard::Escape))
+				window.close();
+		}
 	}
 
 	return 0;

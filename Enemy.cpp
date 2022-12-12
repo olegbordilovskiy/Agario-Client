@@ -116,6 +116,7 @@ void Enemy::move(Player A, Enemy B) {
 	}
 
 	pl_form.setPosition(x - size, y - size);
+	pl_form.setRadius(size);
 }
 
 float Enemy::getPlayerCoordX() {
@@ -143,26 +144,3 @@ void Enemy::eatingFood(Enemy p) {
 	}
 }
 Enemy enemyArr[9];
-//void Enemy::eatingEnemy(Player& p, Enemy& e) {
-//
-//	float X1 = p.getPlayerCoordX();
-//	float Y1 = p.getPlayerCoordY();
-//	float X2 = e.getPlayerCoordX();
-//	float Y2 = e.getPlayerCoordY();
-//	float S1 = p.getPlayerSize();
-//	float S2 = e.getPlayerSize();
-//
-//	if (S1 > S2) {
-//		if ((((X2 >= X1 - S1) && (X2 <= X1)) || ((X2 <= X1 + S1) && (X2 >= X1))) &&
-//			(((Y2 >= Y1 - S1) && (Y2 <= Y1)) || ((Y2 <= Y1 + S1) && (Y2 >= Y1))))
-//			e.life = false;
-//	}
-//
-//	if (S2 > S1) {
-//		if ((((X2 >= X1 - S1) && (X2 <= X1)) || ((X2 <= X1 + S1) && (X2 >= X1))) &&
-//			(((Y2 >= Y1 - S1) && (Y2 <= Y1)) || ((Y2 <= Y1 + S1) && (Y2 >= Y1))))
-//			p.life = false;
-//	}
-//}
-//
-

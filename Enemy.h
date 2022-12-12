@@ -27,8 +27,6 @@ public:
 
 	void eatingFood(Enemy p);
 
-	//void eatingEnemy(Player& p, Enemy& e);
-
 };
 
 extern Enemy enemyArr[9];
