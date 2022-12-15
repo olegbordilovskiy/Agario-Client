@@ -8,13 +8,13 @@ void Player::move() {
 		if (getPlayerCoordX() - speed - size > 0) x -= speed;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Right)) {
-		if (getPlayerCoordX() + speed + size < map_width) x += speed;
+		if (getPlayerCoordX() + speed + size < mapWidth) x += speed;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Up)) {
 		if (getPlayerCoordY() - speed - size > 0) y -= speed;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Down)) {
-		if (getPlayerCoordY() + speed + size < map_height) y += speed;
+		if (getPlayerCoordY() + speed + size < mapHeight) y += speed;
 
 	}
 	getPlayerCoordForView(getPlayerCoordX(), getPlayerCoordY());
@@ -35,13 +35,14 @@ float Player::getPlayerSize() {
 
 void Player::eatingFood(Player p) {
 	for (int i = 0; i < foodAmount; i++) {
-		if (((foodCoord[i].x >= p.getPlayerCoordX() - p.getPlayerSize() * 1.1 && foodCoord[i].x <= p.getPlayerCoordX()) || (foodCoord[i].x <= p.getPlayerCoordX() + p.getPlayerSize() / 1.1 && foodCoord[i].x >= p.getPlayerCoordX()))
-			&& ((foodCoord[i].y >= p.getPlayerCoordY() - p.getPlayerSize() * 1.2 && foodCoord[i].y <= p.getPlayerCoordY()) || (foodCoord[i].y <= p.getPlayerCoordY() + p.getPlayerSize() / 1.2 && foodCoord[i].y >= p.getPlayerCoordY()))) {
-			foodCoord[i].x = -100;
-			foodCoord[i].y = -100;
+		if (((foodArr[i].x >= p.getPlayerCoordX() - p.getPlayerSize() * 1.1 && foodArr[i].x <= p.getPlayerCoordX()) || (foodArr[i].x <= p.getPlayerCoordX() + p.getPlayerSize() / 1.1 && foodArr[i].x >= p.getPlayerCoordX()))
+			&& ((foodArr[i].y >= p.getPlayerCoordY() - p.getPlayerSize() * 1.2 && foodArr[i].y <= p.getPlayerCoordY()) || (foodArr[i].y <= p.getPlayerCoordY() + p.getPlayerSize() / 1.2 && foodArr[i].y >= p.getPlayerCoordY())) && foodArr[i].life == true) 
+		{
+			foodArr[i].x = rand() % 900 + 50;
+			foodArr[i].y = rand() % 900 + 50;
+			foodArr[i].color = colorArray[rand() % 5];
 			size += 0.15;
 			pl_form.setRadius(size);
-
 		}
 	}
 }

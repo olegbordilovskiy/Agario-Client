@@ -1,22 +1,22 @@
 #include "Functions.h"
 
-View changeZoom() {
+View changeZoom(Player p) {
 	if (Keyboard::isKeyPressed(Keyboard::Subtract)) {
 		view.zoom(1.0100f);
 		zoom += 0.05;
-		lineWidth += 0.008;
+		lineWidth += 0.0060;
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Add)) {
 		view.zoom(0.9900f);
 		if (zoom > 1) {
 			zoom -= 0.05;
-			lineWidth -= 0.008;
+			lineWidth -= 0.006;
 		}
 	}
 	if (Keyboard::isKeyPressed(Keyboard::BackSpace)) {
 		zoom = 0;
 		lineWidth = 0.2;
-		view.setSize(250, 250);
+		view.setSize(windowWidth / 4, windowHeight / 4);
 	}
 
 	return view;
@@ -33,17 +33,20 @@ void drawingMap() {
 }
 
 void drawingResults() {
-	
-	results_background.setFillColor(Color(240, 128, 128));
+
+	resultsBackground.setFillColor(Color(240, 128, 128));
 }
 
 bool isItVisible(Player p, float X, float Y) {
-	if (((X >= p.getPlayerCoordX() - 130 && X <= p.getPlayerCoordX()) || (X <= p.getPlayerCoordX() + 130 && X >= p.getPlayerCoordX()))
-		&& ((Y >= p.getPlayerCoordY() - 130 && Y <= p.getPlayerCoordY()) || (Y <= p.getPlayerCoordY() + 130 && Y >= p.getPlayerCoordY()))) return true;
+	float pX = p.getPlayerCoordX();
+	float pY = p.getPlayerCoordY();
+
+	if (((X >= pX - 200 && X <= pX) || (X <= pX + 200 && X >= pX))
+		&& ((Y >= pY - 130 && Y <= pY) || (Y <= pY + 130 && Y >= pY))) return true;
 	else return false;
 }
 
-void eatingEnemy(Player &p, Enemy &e) {
+void eatingEnemy(Player& p, Enemy& e) {
 
 	float X1 = p.getPlayerCoordX();
 	float Y1 = p.getPlayerCoordY();
@@ -55,7 +58,11 @@ void eatingEnemy(Player &p, Enemy &e) {
 	if (S1 > S2) {
 		if ((((X2 <= X1) && (X2 >= X1 - S1)) || ((X2 >= X1) && (X2 <= X1 + S1))) &&
 			(((Y2 <= Y1) && (Y2 >= Y1 - S1)) || ((Y2 >= Y1) && (Y2 <= Y1 + S1))))
+		{
+			if (e.life == true) p.size += e.size / 3;
+			p.pl_form.setRadius(p.size);
 			e.life = false;
+		}
 	}
 
 	if (S1 < S2) {

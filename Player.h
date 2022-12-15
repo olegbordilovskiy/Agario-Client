@@ -2,8 +2,6 @@
 #include "SFML/Graphics.hpp"
 #include "View.h"
 #include "Globals.h"
-//#include "Enemy.h"
-//#include "PlayerAndEnemy.h"
 
 class Player {
 public:
@@ -23,7 +21,5 @@ public:
 	float getPlayerSize();
 
 	void eatingFood(Player p);
-
-	//void eatingEnemy(Player& p, Enemy& e);
 
 };

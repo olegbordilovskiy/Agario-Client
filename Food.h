@@ -3,7 +3,8 @@
 
 class Food {
 public:
-	int x;
-	int y;
+	float x;
+	float y;
+	bool life;
 	sf::Color color;
 };

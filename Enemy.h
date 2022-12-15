@@ -2,7 +2,7 @@
 #include "SFML/Graphics.hpp"
 #include "Globals.h"
 #include "Player.h"
-//#include "PlayerAndEnemy.h"
+
 using namespace sf;
 
 
@@ -17,7 +17,7 @@ public:
 
 	void pos(float X, float Y);
 
-	void move(Player A, Enemy B);
+	void move(Player A, Enemy B, Food Arr[]);
 
 	float getPlayerCoordX();
 
@@ -27,6 +27,8 @@ public:
 
 	void eatingFood(Enemy p);
 
+	int getDir(float xE, float yE, float xF, float yF);
+
 };
 
-extern Enemy enemyArr[9];
+extern Enemy enemyArr[enemyAmount];
