@@ -8,3 +8,5 @@
 #include "Food.h"
 #include "Enemy.h"
 #include "Functions.h"
+#include <string>
+#include <iostream>

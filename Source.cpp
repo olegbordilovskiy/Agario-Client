@@ -25,6 +25,7 @@ Begin:
 	zoom = 0;
 	lineWidth = 0.2;
 	view.setSize(windowWidth / 4, windowHeight / 4);
+	drawingDistance = 200;
 
 	lines.setFillColor(Color(192, 192, 192));
 	columns.setFillColor(Color(192, 192, 192));
@@ -35,7 +36,7 @@ Begin:
 	player.size = startSize;
 	player.pl_form.setRadius(player.size);
 	player.speed = speedP;
-	player.pl_form.setFillColor(colorArray[rand() % 5]);
+	player.pl_form.setFillColor(colorArray[rand() % 9]);
 	player.life = true;
 
 	for (int i = 0; i < enemyAmount; i++) {
@@ -44,7 +45,7 @@ Begin:
 		enemyArr[i].size = rand() % 10 + 5;
 		enemyArr[i].speed = speedE * 5;
 		enemyArr[i].pl_form.setRadius(enemyArr[i].size);
-		enemyArr[i].pl_form.setFillColor(colorArray[rand() % 5]);
+		enemyArr[i].pl_form.setFillColor(colorArray[rand() % 9]);
 		enemyArr[i].pl_form.setPosition(Vector2f(enemyArr[i].x, enemyArr[i].y));
 		enemyArr[i].life = true;
 	}
@@ -53,7 +54,7 @@ Begin:
 		foodArr[i].life = true;
 		foodArr[i].x = rand() % 900 + 50;
 		foodArr[i].y = rand() % 900 + 50;
-		foodArr[i].color = colorArray[rand() % 5];
+		foodArr[i].color = colorArray[rand() % 9];
 
 	}
 
@@ -68,10 +69,19 @@ Begin:
 
 		if (!isTheEndOfGame) {
 
-			window.clear();
 			window.setView(view);
-			changeZoom(player);
+			if (player.size > 40)
+			{
+				view.setSize(windowWidth / 2, windowHeight / 2);
+				zoom = 8;
+				lineWidth = 0.4;
+				drawingDistance = 380;
+
+			}
+
+			//changeZoom(player);
 			player.move();
+			window.clear(Color(153,153,255));
 			window.draw(background);
 
 			for (int i = 0; i < enemyAmount; i++) {
@@ -108,7 +118,7 @@ Begin:
 			for (int i = 0; i < foodAmount; i++) {
 				if (isItVisible(player, foodArr[i].x, foodArr[i].y)) {
 					if (foodArr[i].life == true) {
-						foodCircle.setPosition(foodArr[i].x, foodArr[i].y);
+						foodCircle.setPosition(foodArr[i].x - 2, foodArr[i].y - 2);
 						foodCircle.setRadius(2);
 						foodCircle.setFillColor(foodArr[i].color);
 						window.draw(foodCircle);
@@ -145,7 +155,7 @@ Begin:
 			text.setPosition(view.getCenter().x - 340, view.getCenter().y - 280);
 			window.draw(text);
 
-			text.setString(L"Нажмите ""R"" чтобы начать новую игру");
+			text.setString(L"Нажмите R чтобы начать новую игру");
 			text.setCharacterSize(40);
 			text.setFillColor(Color::Black);
 			text.setOutlineThickness(0);
@@ -167,7 +177,7 @@ Begin:
 			!enemyArr[5].life && !enemyArr[6].life && !enemyArr[7].life && !enemyArr[8].life) && isTheEndOfGame)
 		{
 			window.clear();
-			view.reset(FloatRect(0, 0, 1000, 1000));
+			view.reset(FloatRect(0, 0, windowWidth, windowHeight));
 			window.setView(view);
 			resultsBackground.setFillColor(Color(176, 224, 230));
 			window.draw(resultsBackground);
@@ -179,7 +189,7 @@ Begin:
 			text.setPosition(view.getCenter().x - 380, view.getCenter().y - 280);
 			window.draw(text);
 
-			text.setString(L"Нажмите ""R"" чтобы начать новую игру");
+			text.setString(L"Нажмите R чтобы начать новую игру");
 			text.setCharacterSize(40);
 			text.setFillColor(Color::Black);
 			text.setOutlineThickness(0);

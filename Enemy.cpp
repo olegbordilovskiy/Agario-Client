@@ -199,13 +199,18 @@ float Enemy::getPlayerSize() {
 }
 
 void Enemy::eatingFood(Enemy p) {
+	float xP = p.getPlayerCoordX();
+	float yP = p.getPlayerCoordY();
+	float sP = getPlayerSize();
+
 	for (int i = 0; i < foodAmount; i++) {
-		if (((foodArr[i].x >= (p.getPlayerCoordX() - p.getPlayerSize()) && foodArr[i].x < p.getPlayerCoordX()) || (foodArr[i].x <= (p.getPlayerCoordX() + p.getPlayerSize()) && foodArr[i].x > p.getPlayerCoordX()))
-			&& ((foodArr[i].y >= (p.getPlayerCoordY() - p.getPlayerSize()) && foodArr[i].y < p.getPlayerCoordY()) || (foodArr[i].y <= (p.getPlayerCoordY() + p.getPlayerSize()) && foodArr[i].y > p.getPlayerCoordY())) && foodArr[i].life) {
-			//foodArr[i].life = false;
+
+		if ((((foodArr[i].x <= xP) && (foodArr[i].x >= xP - sP)) || ((foodArr[i].x >= xP) && (foodArr[i].x <= xP + sP))) &&
+			(((foodArr[i].y <= yP) && (foodArr[i].y >= yP - sP)) || ((foodArr[i].y >= yP) && (foodArr[i].y <= yP + sP))) && foodArr[i].life == true)
+		{
 			foodArr[i].x = rand() % 900 + 50;
 			foodArr[i].y = rand() % 900 + 50;
-			foodArr[i].color = colorArray[rand() % 5];
+			foodArr[i].color = colorArray[rand() % 9];
 			size += 0.2;
 			pl_form.setRadius(size);
 

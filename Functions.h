@@ -7,7 +7,7 @@
 
 using namespace sf;
 
-sf::View changeZoom(Player p);
+//sf::View changeZoom(Player p);
 
 void drawingMap();
 
