@@ -24,7 +24,7 @@ extern RectangleShape lines;
 extern RectangleShape columns;
 extern CircleShape foodCircle;
 extern Font font;
-extern Text text;
+//extern Text text;
 
 extern Food foodArr[foodAmount];
 extern Color colorArray[10];

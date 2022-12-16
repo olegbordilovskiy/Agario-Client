@@ -7,8 +7,6 @@
 
 using namespace sf;
 
-//sf::View changeZoom(Player p);
-
 void drawingMap();
 
 bool isItVisible(Player p, float X, float Y);
@@ -17,4 +15,10 @@ void eatingEnemy(Player &p, Enemy &e);
 
 void drawingResults();
 
-void drawingMenu();
+int drawingMenu();
+
+void drawingRules(Sprite menuBackground);
+
+void createButton(Text &text, RectangleShape &button);
+
+void buttonNotSelected(Text &text, RectangleShape &button);

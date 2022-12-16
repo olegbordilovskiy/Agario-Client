@@ -1,30 +1,5 @@
 #include "Functions.h"
 
-//View changeZoom(Player p) {
-//	if (Keyboard::isKeyPressed(Keyboard::Subtract)) {
-//		view.zoom(1.0100f);
-//		//if (zoom <= 0)
-//		{
-//			zoom += 0.05;
-//			lineWidth += 0.0060;
-//		}
-//	}
-//	if (Keyboard::isKeyPressed(Keyboard::Add)) {
-//		view.zoom(0.9900f);
-//		if (zoom > 1) {
-//			zoom -= 0.05;
-//			lineWidth -= 0.006;
-//		}
-//	}
-//	if (Keyboard::isKeyPressed(Keyboard::BackSpace)) {
-//		zoom = 0;
-//		lineWidth = 0.2;
-//		view.setSize(windowWidth / 4, windowHeight / 4);
-//	}
-//
-//	return view;
-//}
-
 void drawingMap() {
 	background.setFillColor(Color(247, 247, 247));
 	background.setOutlineThickness(5);
@@ -36,16 +11,33 @@ void drawingMap() {
 }
 
 void drawingResults() {
-
 	resultsBackground.setFillColor(Color(240, 128, 128));
 }
 
-void drawingMenu() {
+void createButton(Text &text, RectangleShape &button) {
+	text.setFillColor(Color(51, 255, 153));
+	text.setCharacterSize(75);
+	text.setOutlineThickness(5.0);			
+	text.setPosition(button.getPosition());
+}
+
+void buttonNotSelected(Text &text, RectangleShape &button) {
+	text.setFillColor(Color(51, 255, 153));
+	text.setCharacterSize(75);
+	text.setPosition(button.getPosition());
+}
+
+int drawingMenu() {
 	int menuMode;
-	bool flag = false;
-	Text startText("", font, 50);;
-	Text rulesText("", font, 80);;
-	Text exitText("", font, 80);;
+	bool game = false;
+	bool rules = false;
+	bool exit = false;
+	enum modes { gameMode, rulesMode, exitMode, noMode };
+	modes mode;
+	Text menuText("", font);
+	Text startText("", font);;
+	Text rulesText("", font);;
+	Text exitText("", font);;
 	Texture menuBackgroundT;
 	Texture menuT;
 	Sprite menuBackground;
@@ -63,12 +55,12 @@ void drawingMenu() {
 	menu.setColor(Color(255, 255, 255, 230));
 	menu.setPosition(windowWidth/4,windowHeight/10);
 	
-	text.setString("Agar.io");
-	text.setFillColor(Color(51, 255, 153));
-	text.setCharacterSize(170);
-	text.setOutlineThickness(10);
-	text.setLetterSpacing(1.5);
-	text.setPosition(windowWidth / 3, windowHeight / 6);
+	menuText.setString("Agar.io");
+	menuText.setFillColor(Color(51, 255, 153));
+	menuText.setCharacterSize(170);
+	menuText.setOutlineThickness(10);
+	menuText.setLetterSpacing(1.5);
+	menuText.setPosition(windowWidth / 3, windowHeight / 6);
 
 	startButton.setPosition(560, 500);
 	rulesButton.setPosition(615, 600);
@@ -78,25 +70,16 @@ void drawingMenu() {
 	rulesButton.setFillColor(Color(0, 0, 0, 0));
 	exitButton.setFillColor(Color(0, 0, 0, 0));
 
+	createButton(startText,startButton);
 	startText.setString(L"Начать игру");
-	startText.setFillColor(Color(51, 255, 153));
-	startText.setCharacterSize(75);
-	startText.setOutlineThickness(5);
-	startText.setPosition(startButton.getPosition());
 
+	createButton(rulesText, rulesButton);
 	rulesText.setString(L"Правила");
-	rulesText.setFillColor(Color(51, 255, 153));
-	rulesText.setCharacterSize(75);
-	rulesText.setOutlineThickness(5);
-	rulesText.setPosition(rulesButton.getPosition());
 
+	createButton(exitText, exitButton);
 	exitText.setString(L"Выход");
-	exitText.setFillColor(Color(51, 255, 153));
-	exitText.setCharacterSize(75);
-	exitText.setOutlineThickness(5);
-	exitText.setPosition(exitButton.getPosition());
 
-	while (!flag) {
+	while (!game || !rules || !exit) {
 		while (window.pollEvent(event))
 		{
 			if (event.type == Event::Closed)
@@ -104,16 +87,17 @@ void drawingMenu() {
 		}
 
 		window.clear();
-		//startText.setFillColor(Color(51, 255, 153));
 		window.draw(menuBackground);
 		window.draw(menu);
-		window.draw(text);
+		window.draw(menuText);
 		window.draw(startButton);
 		window.draw(startText);
 		window.draw(rulesButton);
 		window.draw(rulesText);
 		window.draw(exitButton);
 		window.draw(exitText);
+
+		mode = noMode;
 		
 
 		if (IntRect(560, 500, 400, 100).contains(Mouse::getPosition(window))) 
@@ -121,25 +105,23 @@ void drawingMenu() {
 			startText.setFillColor(Color(102, 178, 255));
 			startText.setCharacterSize(90);
 			startText.setPosition(560 - 35, 500 - 10);
+			mode = gameMode;
 		}
 		else
 		{
-			startText.setFillColor(Color(51, 255, 153));
-			startText.setCharacterSize(75);
-			startText.setPosition(startButton.getPosition());
+			buttonNotSelected(startText, startButton);
 		}
 
 		if (IntRect(560, 600, 400, 100).contains(Mouse::getPosition(window)))
 		{
 			rulesText.setFillColor(Color(102, 178, 255));
 			rulesText.setCharacterSize(90);
-			rulesText.setPosition(615 - 35, 600 - 10);
+			rulesText.setPosition(615 - 30, 600 - 10);
+			mode = rulesMode;
 		}
 		else
 		{
-			rulesText.setFillColor(Color(51, 255, 153));
-			rulesText.setCharacterSize(75);
-			rulesText.setPosition(rulesButton.getPosition());
+			buttonNotSelected(rulesText, rulesButton);
 		}
 
 		if (IntRect(560, 700, 400, 100).contains(Mouse::getPosition(window)))
@@ -147,19 +129,40 @@ void drawingMenu() {
 			exitText.setFillColor(Color(255, 51, 51));
 			exitText.setCharacterSize(90);
 			exitText.setPosition(648 - 25, 700 - 10);
+			mode = exitMode;
 		}
 		else
 		{
+			buttonNotSelected(exitText, exitButton);
 			exitText.setFillColor(Color(51, 255, 153));
-			exitText.setCharacterSize(75);
-			exitText.setPosition(exitButton.getPosition());
 		}
 
 		window.display();
-		if (Keyboard::isKeyPressed(Keyboard::Escape)) flag = true;
+
+		if (Mouse::isButtonPressed(Mouse::Left)) {
+			if (mode == gameMode) return gameMode;
+			if (mode == rulesMode) drawingRules(menuBackground);
+			if (mode == exitMode) return exitMode;
+		}
 		
 	}
 
+}
+
+void drawingRules(Sprite menuBackground)
+{
+	bool flag = false;
+	while (!flag) {
+		while (window.pollEvent(event))
+		{
+			if (event.type == Event::Closed)
+				window.close();
+		}
+		window.clear();
+		window.draw(menuBackground);
+		window.display();
+		if (Keyboard::isKeyPressed(Keyboard::BackSpace)) flag = true;
+	}
 }
 
 bool isItVisible(Player p, float X, float Y) {

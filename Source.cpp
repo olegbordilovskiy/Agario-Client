@@ -4,6 +4,7 @@ using namespace sf;
 
 int main() {
 
+	Text text("", font);
 	window.setFramerateLimit(100);
 	srand(time(NULL));
 	font.loadFromFile("resources\\impact2.ttf");
@@ -12,7 +13,7 @@ int main() {
 
 Begin:
 
-	drawingMenu();
+	if (drawingMenu() == 2) window.close();
 
 	isTheEndOfGame = false;
 
@@ -78,6 +79,7 @@ Begin:
 
 			player.move();
 			window.clear(Color(153,153,255));
+			//window.clear(Color(colorArray[rand() % 9]));
 			window.draw(background);
 
 			for (int i = 0; i < enemyAmount; i++) {

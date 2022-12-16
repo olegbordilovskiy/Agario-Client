@@ -13,7 +13,6 @@ RectangleShape lines(Vector2f(mapWidth, lineWidth));
 RectangleShape columns(Vector2f(lineWidth, mapHeight));
 CircleShape foodCircle;
 Font font;
-Text text("", font, 30);
 
 Food foodArr[foodAmount];
 Color colorArray[10] = { Color(255, 0, 0), Color(0, 255, 0), Color(0, 255, 255), Color(255, 255, 0), Color(255, 180, 0), 
