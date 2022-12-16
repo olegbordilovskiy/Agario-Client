@@ -16,3 +16,5 @@ bool isItVisible(Player p, float X, float Y);
 void eatingEnemy(Player &p, Enemy &e);
 
 void drawingResults();
+
+void drawingMenu();

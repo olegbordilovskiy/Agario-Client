@@ -23,7 +23,13 @@ extern RectangleShape resultsBackground;
 extern RectangleShape lines;
 extern RectangleShape columns;
 extern CircleShape foodCircle;
+extern Font font;
+extern Text text;
 
 extern Food foodArr[foodAmount];
 extern Color colorArray[10];
+
+extern RenderWindow window;
+extern Event event;
+
 

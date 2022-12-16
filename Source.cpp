@@ -4,18 +4,15 @@ using namespace sf;
 
 int main() {
 
-	Event event;
-	RenderWindow window(VideoMode(windowWidth, windowHeight), "Agar.io", Style::Default);
 	window.setFramerateLimit(100);
 	srand(time(NULL));
-
-	Font font;
 	font.loadFromFile("resources\\impact2.ttf");
-	Text text("", font, 30);
 
 	bool isTheEndOfGame;
 
 Begin:
+
+	drawingMenu();
 
 	isTheEndOfGame = false;
 
@@ -79,7 +76,6 @@ Begin:
 
 			}
 
-			//changeZoom(player);
 			player.move();
 			window.clear(Color(153,153,255));
 			window.draw(background);
