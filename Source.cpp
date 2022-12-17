@@ -31,7 +31,7 @@ Begin:
 	Player player;
 	player.x = rand() % 900 + 50;
 	player.y = rand() % 900 + 50;
-	player.size = startSize;
+	player.size = 10;
 	player.pl_form.setRadius(player.size);
 	player.speed = speedP;
 	player.pl_form.setFillColor(colorArray[rand() % 9]);

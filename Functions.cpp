@@ -151,8 +151,20 @@ int drawingMenu() {
 
 void drawingRules(Sprite menuBackground)
 {
-	bool flag = false;
-	while (!flag) {
+	bool backPressed = false;
+	Texture rulesT;
+	Texture backT;
+	Sprite back;
+	Sprite rules;
+	rulesT.loadFromFile("resources\\rules.png");
+	rules.setTexture(rulesT);
+	rules.setPosition(200, 90);
+	backT.loadFromFile("resources\\back.png");
+	back.setTexture(backT);
+	back.setScale(0.2, 0.2);
+	back.setPosition(30, 30);
+
+	while (!backPressed) {
 		while (window.pollEvent(event))
 		{
 			if (event.type == Event::Closed)
@@ -160,8 +172,21 @@ void drawingRules(Sprite menuBackground)
 		}
 		window.clear();
 		window.draw(menuBackground);
+		window.draw(rules);
+		window.draw(back);
 		window.display();
-		if (Keyboard::isKeyPressed(Keyboard::BackSpace)) flag = true;
+
+		if (IntRect(30, 30, 130, 130).contains(Mouse::getPosition(window)))
+		{
+			back.setScale(0.25, 0.25);
+			back.setPosition(18, 18);
+			if (Mouse::isButtonPressed(Mouse::Left)) backPressed = true;
+		}
+		else
+		{
+			back.setScale(0.2, 0.2);
+			back.setPosition(30, 30);
+		}
 	}
 }
 
@@ -189,6 +214,7 @@ void eatingEnemy(Player& p, Enemy& e) {
 		{
 			if (e.life == true) p.size += e.size / 3;
 			p.pl_form.setRadius(p.size);
+			p.pl_form.setPosition(p.x - p.size, p.y - p.size);
 			e.life = false;
 		}
 	}

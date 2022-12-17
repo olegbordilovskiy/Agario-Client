@@ -4,16 +4,16 @@ using namespace sf;
 
 void Player::move() {
 
-	if (Keyboard::isKeyPressed(Keyboard::Left)) {
+	if (Keyboard::isKeyPressed(Keyboard::A)) {
 		if (getPlayerCoordX() - speed - size > 0) x -= speed;
 	}
-	if (Keyboard::isKeyPressed(Keyboard::Right)) {
+	if (Keyboard::isKeyPressed(Keyboard::D)) {
 		if (getPlayerCoordX() + speed + size < mapWidth) x += speed;
 	}
-	if (Keyboard::isKeyPressed(Keyboard::Up)) {
+	if (Keyboard::isKeyPressed(Keyboard::W)) {
 		if (getPlayerCoordY() - speed - size > 0) y -= speed;
 	}
-	if (Keyboard::isKeyPressed(Keyboard::Down)) {
+	if (Keyboard::isKeyPressed(Keyboard::S)) {
 		if (getPlayerCoordY() + speed + size < mapHeight) y += speed;
 
 	}
