@@ -19,6 +19,10 @@ int drawingMenu();
 
 void drawingRules(Sprite menuBackground);
 
+void drawingWin(bool & is_the_end_of_play, bool & is_the_death_of_player);
+
+void drawingLose();
+
 void createButton(Text &text, RectangleShape &button);
 
 void buttonNotSelected(Text &text, RectangleShape &button);

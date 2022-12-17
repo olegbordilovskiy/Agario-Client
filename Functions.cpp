@@ -190,6 +190,64 @@ void drawingRules(Sprite menuBackground)
 	}
 }
 
+void drawingWin(bool & is_the_end_of_play, bool & is_the_player_death)
+{
+	bool flag = false;
+	Text text("", font);
+
+	//resultsBackground.setFillColor(Color(240, 128, 128));
+
+	while (!flag) {
+		while (window.pollEvent(event))
+		{
+			if (event.type == Event::Closed)
+				window.close();
+		}
+
+		window.clear(Color(240, 128, 128));
+		view.reset(FloatRect(0, 0, windowWidth, windowHeight));
+		window.setView(view);
+
+		text.setString(L"Вас съели!");
+		text.setCharacterSize(150);
+		text.setFillColor(Color::Red);
+		text.setOutlineThickness(7);
+		text.setPosition(view.getCenter().x - 340, view.getCenter().y - 280);
+		window.draw(text);
+
+		text.setString(L"Нажмите R чтобы начать новую игру");
+		text.setCharacterSize(40);
+		text.setFillColor(Color::Black);
+		text.setOutlineThickness(0);
+		text.setPosition(view.getCenter().x - 300, view.getCenter().y - 70);
+		window.draw(text);
+
+		text.setString(L"Нажмите пробел чтобы вернуться в меню");
+		text.setPosition(view.getCenter().x - 300, view.getCenter().y);
+		window.draw(text);
+
+		text.setString(L"Нажмите Esc чтобы выйти");
+		text.setPosition(view.getCenter().x - 300, view.getCenter().y + 70);
+		window.draw(text);
+
+		window.display();
+
+		if (Keyboard::isKeyPressed(Keyboard::R))
+		{
+			is_the_end_of_play = false;
+			//is_the_player_death = false;
+			flag = true;
+		}
+		if (Keyboard::isKeyPressed(Keyboard::Space))
+		{
+			is_the_end_of_play = true;
+			//is_the_player_death = true;
+			flag = true;
+		}
+		if (Keyboard::isKeyPressed(Keyboard::Escape)) window.close();
+	}
+}
+
 bool isItVisible(Player p, float X, float Y) {
 	float pX = p.getPlayerCoordX();
 	float pY = p.getPlayerCoordY();

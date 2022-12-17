@@ -18,7 +18,6 @@ void Player::move() {
 
 	}
 	getPlayerCoordForView(getPlayerCoordX(), getPlayerCoordY());
-	//pl_form.setPosition(x - (size*sqrt(2)/2), y - (size * sqrt(2) / 2));
 	pl_form.setPosition(x - size, y - size);
 }
 
