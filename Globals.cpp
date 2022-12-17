@@ -5,6 +5,7 @@ float speedE = 0.5;
 float zoom = 0;
 float lineWidth = 0.2;
 float drawingDistance = 200;
+bool WinOrLose;
 
 
 RectangleShape background(Vector2f(mapWidth, mapHeight));

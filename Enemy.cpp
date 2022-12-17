@@ -129,7 +129,6 @@ void Enemy::move(Player A, Enemy B, Food Arr[]) {
 			{
 				temp = getDir(xB, yB, Arr[i].x, Arr[i].y);
 				index = i;
-				//printf("¹ %d   X: %3.0f Y: %3.0f Dir: %3.0f\n",i, Arr[i].x, Arr[i].y, temp);
 			}
 		}
 

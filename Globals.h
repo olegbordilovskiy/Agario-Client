@@ -17,6 +17,7 @@ extern float speedE;
 extern float zoom;
 extern float lineWidth;
 extern float drawingDistance;
+extern bool WinOrLose;
 
 extern RectangleShape background;
 extern RectangleShape resultsBackground;

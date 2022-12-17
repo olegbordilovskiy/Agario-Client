@@ -7,7 +7,6 @@ void drawingMap() {
 
 	lines.setFillColor(Color::Red);
 	lines.move(10, 90);
-
 }
 
 void drawingResults() {
@@ -27,7 +26,7 @@ void buttonNotSelected(Text &text, RectangleShape &button) {
 	text.setPosition(button.getPosition());
 }
 
-int drawingMenu() {
+int drawingMenu(bool & is_the_end_of_program) {
 	int menuMode;
 	bool game = false;
 	bool rules = false;
@@ -140,13 +139,11 @@ int drawingMenu() {
 		window.display();
 
 		if (Mouse::isButtonPressed(Mouse::Left)) {
-			if (mode == gameMode) return gameMode;
+			if (mode == gameMode) return 0;
+			if (mode == exitMode) return 1;
 			if (mode == rulesMode) drawingRules(menuBackground);
-			if (mode == exitMode) return exitMode;
 		}
-		
 	}
-
 }
 
 void drawingRules(Sprite menuBackground)
@@ -180,7 +177,7 @@ void drawingRules(Sprite menuBackground)
 		{
 			back.setScale(0.25, 0.25);
 			back.setPosition(18, 18);
-			if (Mouse::isButtonPressed(Mouse::Left)) backPressed = true;
+			if (Mouse::isButtonPressed(Mouse::Left) || Keyboard::isKeyPressed(Keyboard::BackSpace)) backPressed = true;
 		}
 		else
 		{
@@ -190,29 +187,40 @@ void drawingRules(Sprite menuBackground)
 	}
 }
 
-void drawingWin(bool & is_the_end_of_play, bool & is_the_player_death)
+void drawingWinOrLose(bool & is_the_end_of_play, bool & is_the_player_death, bool & is_the_end_of_program, bool win_or_Lose)
 {
 	bool flag = false;
 	Text text("", font);
 
-	//resultsBackground.setFillColor(Color(240, 128, 128));
-
 	while (!flag) {
+		view.reset(FloatRect(0, 0, windowWidth, windowHeight));
+
 		while (window.pollEvent(event))
 		{
 			if (event.type == Event::Closed)
 				window.close();
 		}
 
-		window.clear(Color(240, 128, 128));
-		view.reset(FloatRect(0, 0, windowWidth, windowHeight));
-		window.setView(view);
+		if (!win_or_Lose) {
+			window.clear(Color(240, 128, 128));
+			text.setString(L"Вас съели!");
+			text.setCharacterSize(150);
+			text.setFillColor(Color::Red);
+			text.setPosition(view.getCenter().x - 340, view.getCenter().y - 280);
+		}
+		else
+		{
+			window.clear(Color(176, 224, 230));
+			text.setString(L"Вы победили!");
+			text.setCharacterSize(130);
+			text.setFillColor(Color::Blue);
+			text.setPosition(view.getCenter().x - 380, view.getCenter().y - 280);
+		}
 
-		text.setString(L"Вас съели!");
-		text.setCharacterSize(150);
-		text.setFillColor(Color::Red);
 		text.setOutlineThickness(7);
-		text.setPosition(view.getCenter().x - 340, view.getCenter().y - 280);
+
+		
+		window.setView(view);
 		window.draw(text);
 
 		text.setString(L"Нажмите R чтобы начать новую игру");
@@ -235,16 +243,20 @@ void drawingWin(bool & is_the_end_of_play, bool & is_the_player_death)
 		if (Keyboard::isKeyPressed(Keyboard::R))
 		{
 			is_the_end_of_play = false;
-			//is_the_player_death = false;
 			flag = true;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Space))
 		{
 			is_the_end_of_play = true;
-			//is_the_player_death = true;
 			flag = true;
 		}
-		if (Keyboard::isKeyPressed(Keyboard::Escape)) window.close();
+		if (Keyboard::isKeyPressed(Keyboard::Escape))
+		{
+			is_the_end_of_program = true;
+			is_the_end_of_play = true;
+			is_the_player_death = true;
+			flag = true;
+		}
 	}
 }
 
@@ -253,7 +265,7 @@ bool isItVisible(Player p, float X, float Y) {
 	float pY = p.getPlayerCoordY();
 
 	if (((X >= pX - drawingDistance && X <= pX) || (X <= pX + drawingDistance && X >= pX))
-		&& ((Y >= pY - drawingDistance * 0.65 && Y <= pY) || (Y <= pY + drawingDistance * 0.65 && Y >= pY))) return true;
+	&& ((Y >= pY - drawingDistance * 0.65 && Y <= pY) || (Y <= pY + drawingDistance * 0.65 && Y >= pY))) return true;
 	else return false;
 }
 

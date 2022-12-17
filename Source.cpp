@@ -9,20 +9,23 @@ int main() {
 	srand(time(NULL));
 	font.loadFromFile("resources\\impact2.ttf");
 
-	bool isThePlayerDeath = false;
+	bool isThePlayerDied = false;
+	bool isAllEnemiesDied = false;
 	bool isTheEndOfPlay = false;
 	bool isTheEndOfProgram = false;
-	bool isItNewGame = false;
 
 	while (window.isOpen()) {
 
 		while (!isTheEndOfProgram) {
-			drawingMenu();
+
+			if (drawingMenu(isTheEndOfProgram) == 1) break;
 			isTheEndOfPlay = false;
 
 			while (!isTheEndOfPlay) {
 
-				isThePlayerDeath = false;
+				isThePlayerDied = false;
+				isAllEnemiesDied = false;
+
 				view.reset(FloatRect(0, 0, windowWidth / 4, windowHeight / 4));
 				drawingMap();
 
@@ -51,8 +54,9 @@ int main() {
 					enemyArr[i].pl_form.setRadius(enemyArr[i].size);
 					enemyArr[i].pl_form.setFillColor(colorArray[rand() % 9]);
 					enemyArr[i].pl_form.setPosition(Vector2f(enemyArr[i].x, enemyArr[i].y));
-					enemyArr[i].life = true;
+					enemyArr[i].life = false;
 				}
+				//enemyArr[8].life = true;
 
 				for (int i = 0; i < foodAmount; i++) {
 					foodArr[i].life = true;
@@ -62,16 +66,16 @@ int main() {
 
 				}
 
-				//while (window.isOpen()) {
+				while (!isThePlayerDied) {
 
-				while (!isThePlayerDeath) {
+					isAllEnemiesDied = false;
 
 					while (window.pollEvent(event))
 					{
 						if (event.type == Event::Closed)
 							window.close();
 					}
-					
+
 					window.setView(view);
 					if (player.size > 40)
 					{
@@ -136,58 +140,31 @@ int main() {
 					window.draw(player.pl_form);
 					window.display();
 
-					if (!player.life) isThePlayerDeath = true;
+					if (!player.life) isThePlayerDied = true;
 
 					if (!enemyArr[0].life && !enemyArr[1].life && !enemyArr[2].life && !enemyArr[3].life && !enemyArr[4].life &&
-						!enemyArr[5].life && !enemyArr[6].life && !enemyArr[7].life && !enemyArr[8].life) isThePlayerDeath = true;
-
-
-					if (!player.life && isThePlayerDeath)
+						!enemyArr[5].life && !enemyArr[6].life && !enemyArr[7].life && !enemyArr[8].life)
 					{
-						drawingWin(isTheEndOfPlay, isThePlayerDeath);
+						isAllEnemiesDied = true;
+						isThePlayerDied = true;
 					}
 
-					if ((!enemyArr[0].life && !enemyArr[1].life && !enemyArr[2].life && !enemyArr[3].life && !enemyArr[4].life &&
-						!enemyArr[5].life && !enemyArr[6].life && !enemyArr[7].life && !enemyArr[8].life) && isThePlayerDeath)
+
+					if (isThePlayerDied && !isAllEnemiesDied)
 					{
-						window.clear();
-						view.reset(FloatRect(0, 0, windowWidth, windowHeight));
-						window.setView(view);
-						resultsBackground.setFillColor(Color(176, 224, 230));
-						window.draw(resultsBackground);
+						drawingWinOrLose(isTheEndOfPlay, isThePlayerDied, isTheEndOfProgram, player.life);
+					}
 
-						text.setString(L"Вы победили!");
-						text.setCharacterSize(130);
-						text.setFillColor(Color::Blue);
-						text.setOutlineThickness(7);
-						text.setPosition(view.getCenter().x - 380, view.getCenter().y - 280);
-						window.draw(text);
-
-						text.setString(L"Нажмите R чтобы начать новую игру");
-						text.setCharacterSize(40);
-						text.setFillColor(Color::Black);
-						text.setOutlineThickness(0);
-						text.setPosition(view.getCenter().x - 300, view.getCenter().y - 70);
-						window.draw(text);
-
-						text.setString(L"Нажмите пробел чтобы вернуться в меню");
-						text.setPosition(view.getCenter().x - 300, view.getCenter().y);
-						window.draw(text);
-
-						text.setString(L"Нажмите Esc чтобы выйти");
-						text.setPosition(view.getCenter().x - 300, view.getCenter().y + 70);
-						window.draw(text);
-
-						window.display();
-
-						if (Keyboard::isKeyPressed(Keyboard::R)) isTheEndOfPlay = false;
-						//if (Keyboard::isKeyPressed(Keyboard::Space))  goto Menu;
-						if (Keyboard::isKeyPressed(Keyboard::Escape)) window.close();
+					if (isThePlayerDied && isAllEnemiesDied)
+					{
+						drawingWinOrLose(isTheEndOfPlay, isThePlayerDied, isTheEndOfProgram, player.life);
 					}
 				}
 			}
 		}
+
+		window.close();
 	}
-	window.close();
+
 	return 0;
 }
