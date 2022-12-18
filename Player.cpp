@@ -18,7 +18,7 @@ void Player::move() {
 
 	}
 	getPlayerCoordForView(getPlayerCoordX(), getPlayerCoordY());
-	pl_form.setPosition(x - size, y - size);
+	playerBody.setPosition(x - size, y - size);
 }
 
 float Player::getPlayerCoordX() {
@@ -47,7 +47,7 @@ void Player::eatingFood(Player p) {
 			foodArr[i].y = rand() % 900 + 50;
 			foodArr[i].color = colorArray[rand() % 9];
 			size += 0.15;
-			pl_form.setRadius(size);
+			playerBody.setRadius(size);	
 		}
 	}
 }

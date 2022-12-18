@@ -13,7 +13,7 @@ public:
 	float size;
 	float speed;
 	bool life;
-	CircleShape pl_form;
+	CircleShape enemyBody;
 
 	void pos(float X, float Y);
 

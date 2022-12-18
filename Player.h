@@ -10,7 +10,7 @@ public:
 	float size;
 	float speed;
 	bool life;
-	CircleShape pl_form;
+	CircleShape playerBody;
 
 	void move();
 

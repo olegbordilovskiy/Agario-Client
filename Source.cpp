@@ -41,22 +41,21 @@ int main() {
 				player.x = rand() % 900 + 50;
 				player.y = rand() % 900 + 50;
 				player.size = 10;
-				player.pl_form.setRadius(player.size);
+				player.playerBody.setRadius(player.size);
 				player.speed = speedP;
-				player.pl_form.setFillColor(colorArray[rand() % 9]);
+				player.playerBody.setFillColor(colorArray[rand() % 9]);
 				player.life = true;
 
 				for (int i = 0; i < enemyAmount; i++) {
 					enemyArr[i].x = rand() % 900 + 50;
 					enemyArr[i].y = rand() % 900 + 50;
-					enemyArr[i].size = rand() % 10 + 5;
-					enemyArr[i].speed = speedE * 5;
-					enemyArr[i].pl_form.setRadius(enemyArr[i].size);
-					enemyArr[i].pl_form.setFillColor(colorArray[rand() % 9]);
-					enemyArr[i].pl_form.setPosition(Vector2f(enemyArr[i].x, enemyArr[i].y));
-					enemyArr[i].life = false;
+					enemyArr[i].size = rand() % 1 + 5;
+					enemyArr[i].speed = speedCoeff / sqrt(sqrt(enemyArr[i].size);
+					enemyArr[i].enemyBody.setRadius(enemyArr[i].size);
+					enemyArr[i].enemyBody.setFillColor(colorArray[rand() % 9]);
+					enemyArr[i].enemyBody.setPosition(Vector2f(enemyArr[i].x, enemyArr[i].y));
+					enemyArr[i].life = true;
 				}
-				//enemyArr[8].life = true;
 
 				for (int i = 0; i < foodAmount; i++) {
 					foodArr[i].life = true;
@@ -134,10 +133,10 @@ int main() {
 
 					for (int i = 0; i < enemyAmount; i++) {
 						if (enemyArr[i].life == true)
-							window.draw(enemyArr[i].pl_form);
+							window.draw(enemyArr[i].enemyBody);
 					}
 
-					window.draw(player.pl_form);
+					window.draw(player.playerBody);
 					window.display();
 
 					if (!player.life) isThePlayerDied = true;

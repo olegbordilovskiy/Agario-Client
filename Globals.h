@@ -11,6 +11,7 @@ const int enemyAmount = 9;
 const float startSize = 40;
 const float mapWidth = 1000;
 const float mapHeight = 1000;
+const float speedCoeff = 0.85;
 
 extern float speedP;
 extern float speedE;
@@ -25,7 +26,6 @@ extern RectangleShape lines;
 extern RectangleShape columns;
 extern CircleShape foodCircle;
 extern Font font;
-//extern Text text;
 
 extern Food foodArr[foodAmount];
 extern Color colorArray[10];

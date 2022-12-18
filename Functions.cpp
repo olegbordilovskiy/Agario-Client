@@ -177,13 +177,14 @@ void drawingRules(Sprite menuBackground)
 		{
 			back.setScale(0.25, 0.25);
 			back.setPosition(18, 18);
-			if (Mouse::isButtonPressed(Mouse::Left) || Keyboard::isKeyPressed(Keyboard::BackSpace)) backPressed = true;
+			if (Mouse::isButtonPressed(Mouse::Left)) backPressed = true;
 		}
 		else
 		{
 			back.setScale(0.2, 0.2);
 			back.setPosition(30, 30);
 		}
+		if (Keyboard::isKeyPressed(Keyboard::BackSpace)) backPressed = true;
 	}
 }
 
@@ -283,8 +284,8 @@ void eatingEnemy(Player& p, Enemy& e) {
 			(((Y2 <= Y1) && (Y2 >= Y1 - S1)) || ((Y2 >= Y1) && (Y2 <= Y1 + S1))))
 		{
 			if (e.life == true) p.size += e.size / 3;
-			p.pl_form.setRadius(p.size);
-			p.pl_form.setPosition(p.x - p.size, p.y - p.size);
+			p.playerBody.setRadius(p.size);
+			p.playerBody.setPosition(p.x - p.size, p.y - p.size);
 			e.life = false;
 		}
 	}

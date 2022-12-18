@@ -5,7 +5,7 @@ using namespace sf;
 void Enemy::pos(float X, float Y) {
 	x = X;
 	y = Y;
-	pl_form.setPosition(x - size, y - size);
+	enemyBody.setPosition(x - size, y - size);
 }
 
 void Enemy::move(Player A, Enemy B, Food Arr[]) {
@@ -15,60 +15,62 @@ void Enemy::move(Player A, Enemy B, Food Arr[]) {
 	float xB = B.getPlayerCoordX();
 	float yB = B.getPlayerCoordY();
 	float tmp;
+	bool toPlayer = false;
+	bool fromPlayer = false;
 
-	speed = 5 / size;
-	//speed = 0.1;
-	if (abs(xA - xB) < 120 + size && abs(yA - yB) < 120 + size) {
+	speed = speedCoeff / sqrt(sqrt(size));
 
-		if (B.getPlayerSize() > A.getPlayerSize()) {
+	if (B.getPlayerSize() >= A.getPlayerSize()) {
 
-			if (xA != xB) {
-				tmp = abs(xA - xB);
-				if (abs(xA - xB + 1) < tmp)
-				{
-					if (x - speed - size > 0)
-					{
-						xB -= speed;
-						x = xB;
-					}
-				}
-				tmp = abs(xA - xB);
-				if (abs(xA - xB - 1) < tmp)
-				{
-					if (x + speed + size < mapWidth)
-					{
-						xB += speed;
-						x = xB;
-					}
-				}
-			}
+		if (abs(xA - xB) < 120 + size && abs(yA - yB) < 120 + size) {
 
-			if (yA != yB)
+			toPlayer = true;
+
+			tmp = abs(xA - xB);
+			if (abs(xA - xB + 1) < tmp)
 			{
-				tmp = abs(yA - yB);
-				if (abs(yA - yB + 1) < tmp)
+				if (x - speed - size > 0)
 				{
-					if (y - speed - size > 0)
-					{
-						yB -= speed;
-						y = yB;
-					}
-				}
-				tmp = abs(yA - yB);
-				if (abs(yA - yB - 1) < tmp)
-				{
-					if (y + speed + size < mapHeight)
-					{
-						yB += speed;
-						y = yB;
-					}
+					xB -= speed;
+					x = xB;
 				}
 			}
-
+			tmp = abs(xA - xB);
+			if (abs(xA - xB - 1) < tmp)
+			{
+				if (x + speed + size < mapWidth)
+				{
+					xB += speed;
+					x = xB;
+				}
+			}
+			
+			tmp = abs(yA - yB);
+			if (abs(yA - yB + 1) < tmp)
+			{
+				if (y - speed - size > 0)
+				{
+					yB -= speed;
+					y = yB;
+				}
+			}
+			tmp = abs(yA - yB);
+			if (abs(yA - yB - 1) < tmp)
+			{
+				if (y + speed + size < mapHeight)
+				{
+					yB += speed;
+					y = yB;
+				}
+			}
 		}
+	}
 
-		if (B.getPlayerSize() < A.getPlayerSize())
-		{
+	if (B.getPlayerSize() < A.getPlayerSize()) {
+
+		if (abs(xA - xB) < 45 + size && abs(yA - yB) < 45 + size) {
+
+			fromPlayer = true;
 			tmp = abs(xA - xB);
 			if (abs(xA - xB + 1) > tmp)
 			{
@@ -78,43 +80,39 @@ void Enemy::move(Player A, Enemy B, Food Arr[]) {
 					x = xB;
 				}
 			}
+
 			tmp = abs(xA - xB);
 			if (abs(xA - xB - 1) > tmp)
 			{
-
 				if (x + speed + size < mapWidth)
 				{
 					xB += speed;
 					x = xB;
 				}
-
 			}
 
-			if (abs(xA - xB) < 100 && abs(yA - yB) < 100)
+			tmp = abs(yA - yB);
+			if (abs(yA - yB + 1) > tmp)
 			{
-				tmp = abs(yA - yB);
-				if (abs(yA - yB + 1) > tmp)
+				if (y - speed - size > 0)
 				{
-					if (y - speed - size > 0)
-					{
-						yB -= speed;
-						y = yB;
-					}
+					yB -= speed;
+					y = yB;
 				}
-				tmp = abs(yA - yB);
-				if (abs(yA - yB - 1) > tmp)
+			}
+			tmp = abs(yA - yB);
+			if (abs(yA - yB - 1) > tmp)
+			{
+				if (y + speed + size < mapHeight)
 				{
-					if (y + speed + size < mapHeight)
-					{
-						yB += speed;
-						y = yB;
-					}
+					yB += speed;
+					y = yB;
 				}
 			}
 		}
 	}
 
-	else {
+	if (!toPlayer && !fromPlayer) {
 
 		int index = 0;
 		int j = 0;
@@ -125,7 +123,7 @@ void Enemy::move(Player A, Enemy B, Food Arr[]) {
 
 		for (int i = 0; i <= foodAmount; i++)
 		{
-			if (getDir(xB, yB, Arr[i].x, Arr[i].y) < temp && Arr[i].life==true)
+			if (getDir(xB, yB, Arr[i].x, Arr[i].y) < temp && Arr[i].life == true)
 			{
 				temp = getDir(xB, yB, Arr[i].x, Arr[i].y);
 				index = i;
@@ -143,7 +141,7 @@ void Enemy::move(Player A, Enemy B, Food Arr[]) {
 			{
 				xB -= speed;
 				x = xB;
-				
+
 			}
 		}
 		tmp = abs(Arr[index].x - xB);
@@ -154,7 +152,7 @@ void Enemy::move(Player A, Enemy B, Food Arr[]) {
 			{
 				xB += speed;
 				x = xB;
-				
+
 			}
 		}
 
@@ -165,7 +163,7 @@ void Enemy::move(Player A, Enemy B, Food Arr[]) {
 			{
 				yB -= speed;
 				y = yB;
-				
+
 			}
 		}
 		tmp = abs(Arr[index].y - yB);
@@ -180,9 +178,8 @@ void Enemy::move(Player A, Enemy B, Food Arr[]) {
 		}
 	}
 
-
-	pl_form.setPosition(x - size, y - size);
-	pl_form.setRadius(size);
+	enemyBody.setPosition(x - size, y - size);
+	enemyBody.setRadius(size);
 }
 
 float Enemy::getPlayerCoordX() {
@@ -211,7 +208,7 @@ void Enemy::eatingFood(Enemy p) {
 			foodArr[i].y = rand() % 900 + 50;
 			foodArr[i].color = colorArray[rand() % 9];
 			size += 0.2;
-			pl_form.setRadius(size);
+			enemyBody.setRadius(size);
 
 		}
 	}
