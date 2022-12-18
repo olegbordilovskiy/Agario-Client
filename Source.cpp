@@ -50,7 +50,7 @@ int main() {
 					enemyArr[i].x = rand() % 900 + 50;
 					enemyArr[i].y = rand() % 900 + 50;
 					enemyArr[i].size = rand() % 1 + 5;
-					enemyArr[i].speed = speedCoeff / sqrt(sqrt(enemyArr[i].size);
+					enemyArr[i].speed = speedCoeff / sqrt(sqrt(enemyArr[i].size));
 					enemyArr[i].enemyBody.setRadius(enemyArr[i].size);
 					enemyArr[i].enemyBody.setFillColor(colorArray[rand() % 9]);
 					enemyArr[i].enemyBody.setPosition(Vector2f(enemyArr[i].x, enemyArr[i].y));
