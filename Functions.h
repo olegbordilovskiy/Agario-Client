@@ -21,7 +21,7 @@ void drawingRules(Sprite menuBackground);
 
 void drawingWinOrLose(bool & is_the_end_of_play, bool & is_the_death_of_player, bool & is_the_end_of_program, bool win_or_lose);
 
-void drawingLose();
+//void drawingLose();
 
 void createButton(Text &text, RectangleShape &button);
 

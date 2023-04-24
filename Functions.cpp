@@ -1,4 +1,7 @@
 #include "Functions.h"
+#include <cstring>
+
+using namespace std;
 
 void drawingMap() {
 	background.setFillColor(Color(247, 247, 247));

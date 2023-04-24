@@ -482,6 +482,7 @@ copy /Y "$(SolutionDir)resources"  "$(TargetDir)resources\"</Command>
     <Library Include="extlibs\lib\x86\vorbisfile.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Client.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="extlibs\include\SFML\Audio.hpp" />
     <ClInclude Include="extlibs\include\SFML\Audio\AlResource.hpp" />
@@ -589,6 +590,7 @@ copy /Y "$(SolutionDir)resources"  "$(TargetDir)resources\"</Command>
     <ClInclude Include="View.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Client.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Functions.cpp" />
     <ClCompile Include="Globals.cpp" />

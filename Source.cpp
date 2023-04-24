@@ -158,6 +158,7 @@ int main() {
 					{
 						drawingWinOrLose(isTheEndOfPlay, isThePlayerDied, isTheEndOfProgram, player.life);
 					}
+					if (window.isOpen() == false) return 0;
 				}
 			}
 		}
