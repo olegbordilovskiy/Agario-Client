@@ -1,17 +1,20 @@
 #pragma once
 #include "Food.h"
+#include <vector>
 #include "SFML/Graphics.hpp"
 
 using namespace sf;
+using namespace std;
 
 const int windowHeight = 1000;
 const int windowWidth = 1500;
 const int foodAmount = 300;
-const int enemyAmount = 9;
 const float startSize = 40;
 const float mapWidth = 1000;
 const float mapHeight = 1000;
 const float speedCoeff = 0.85;
+
+extern int enemyAmount = 9;
 
 extern float speedP;
 extern float speedE;
@@ -32,5 +35,6 @@ extern Color colorArray[10];
 
 extern RenderWindow window;
 extern Event event;
+extern Texture menuBackgroundT;
 
 

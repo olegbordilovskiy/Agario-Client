@@ -25,6 +25,8 @@ public:
 
 	float getPlayerSize();
 
+	CircleShape getPlayerColor();
+
 	void eatingFood(Enemy p);
 
 	int getDir(float xE, float yE, float xF, float yF);
