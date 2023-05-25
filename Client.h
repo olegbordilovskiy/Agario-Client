@@ -4,11 +4,14 @@
 
 class Client
 {
-	sf::TcpSocket* socket = new sf::TcpSocket;
+	sf::TcpSocket* socket;
+	bool isConnected = false;
 public:
 	void ConnectToServer();
-	sf::Packet GetMessageTest();
-	void SendPlayerCondition(sf::Packet packet);
+	void DisconnectFromServer();
+	void SendPacketToServer(sf::Packet packet);
+	bool IsClientConnected();
+	sf::TcpSocket* GetClientSocket();
 	sf::Packet GetServerPacket();
 };
 

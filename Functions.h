@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Client.h"
 
 using namespace sf;
 
@@ -19,10 +20,10 @@ int drawingMenu();
 
 void drawingRules(Sprite menuBackground);
 
-void drawingWinOrLose(bool & is_the_end_of_play, bool & is_the_death_of_player, bool & is_the_end_of_program, bool win_or_lose);
+void drawingWinOrLose(bool & is_the_death_of_player, bool & is_the_end_of_program);
 
 void createButton(Text &text, RectangleShape &button);
 
 void buttonNotSelected(Text &text, RectangleShape &button);
 
-int DrawingConnection();
+bool DrawingConnection(Client &client);

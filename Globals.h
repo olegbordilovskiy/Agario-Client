@@ -8,13 +8,13 @@ using namespace std;
 
 const int windowHeight = 1000;
 const int windowWidth = 1500;
-const int foodAmount = 300;
 const float startSize = 40;
 const float mapWidth = 1000;
 const float mapHeight = 1000;
 const float speedCoeff = 0.85;
 
-extern int enemyAmount = 9;
+extern int enemyAmount;
+extern int foodAmount;
 
 extern float speedP;
 extern float speedE;
@@ -30,7 +30,7 @@ extern RectangleShape columns;
 extern CircleShape foodCircle;
 extern Font font;
 
-extern Food foodArr[foodAmount];
+extern Food foodArr[300];
 extern Color colorArray[10];
 
 extern RenderWindow window;

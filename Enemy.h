@@ -19,6 +19,8 @@ public:
 
 	void move(Player A, Enemy B, Food Arr[]);
 
+	void SetEnemyBody();
+
 	float getPlayerCoordX();
 
 	float getPlayerCoordY();
@@ -33,4 +35,4 @@ public:
 
 };
 
-extern Enemy enemyArr[enemyAmount];
+extern Enemy enemyArr[9];

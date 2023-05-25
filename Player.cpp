@@ -33,6 +33,11 @@ float Player::getPlayerSize() {
 	return size;
 }
 
+void Player::SetPlayerBody()
+{
+	playerBody.setPosition(x - size, y - size);
+}
+
 void Player::eatingFood(Player p) {
 	float xP = p.getPlayerCoordX();
 	float yP = p.getPlayerCoordY();

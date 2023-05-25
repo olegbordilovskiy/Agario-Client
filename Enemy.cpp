@@ -182,6 +182,11 @@ void Enemy::move(Player A, Enemy B, Food Arr[]) {
 	enemyBody.setRadius(size);
 }
 
+void Enemy::SetEnemyBody()
+{
+	enemyBody.setPosition(x - size, y - size);
+}
+
 float Enemy::getPlayerCoordX() {
 	return x;
 }
@@ -222,4 +227,4 @@ int Enemy::getDir(float xE, float yE, float xF, float yF)
 {
 	return sqrt(pow(xF - xE, 2) + pow(yF - yE, 2));
 }
-Enemy enemyArr[enemyAmount];
+Enemy enemyArr[9];

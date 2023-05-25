@@ -1,5 +1,4 @@
 #include "Functions.h"
-#include "Connection.h"
 #include <cstring>
 #include <thread>
 #include <future>
@@ -152,9 +151,9 @@ int drawingMenu() {
 	}
 }
 
-int DrawingConnection() {
+bool DrawingConnection(Client &client) {
 	bool backPressed = false;
-	bool connected = false;
+	int amountOfConnectedPlayers = 0;
 	Texture rulesT;
 	Texture backT;
 	Texture menuT;
@@ -178,38 +177,16 @@ int DrawingConnection() {
 	text.setPosition(580, 500);
 	text.setFillColor(Color(0, 0, 0, 255));
 
-	wstring inscriptions[4] = { L"Подключение к серверу...", L"Ошибка подключения", L"Подключено игроков 1/2...", L"Подключено игроков 2/2!" };
+	text.setString(L"Подключение к серверу...");
 
-	enum conditions {Connecting, Error, Connection, Connection2};
-	conditions condition = Connecting;
+	bool isAllPlayersConnected = false;
+	Packet amountOfPlayersPacket;
+	TcpSocket* socket;
 
-	bool all_players_connected = false;
-
-	text.setString(inscriptions[0]);
-
-	sock_sockaddr_in* sock_and_addr = CreateSocket();
-	if (sock_and_addr == NULL) {
-		// Обработка ошибки
-	}
-	
-	thread tryingConnect([&]()
-		{
-			if (TryingToConnect(sock_and_addr->sock, sock_and_addr->serv_addr) == true) {
-				sock_and_addr->sock;
-				condition = Connection;
-			}
-			else
-				condition = Error;
+	Thread thread([&]() {
+		client.ConnectToServer();
 		});
-
-	/*thread waitingPlayers([&]()
-		{
-			if (WaitingForPlayers(sock_and_addr->sock)) {
-				all_players_connected = true;
-				condition = Connection2;
-			};
-		});*/
-	
+	thread.launch();
 
 	while (!backPressed) {
 
@@ -219,32 +196,11 @@ int DrawingConnection() {
 				window.close();
 		}
 
-		switch (condition)
-		{
-		case Connecting:
-			text.setString(inscriptions[0]);
-			break;
-		case Error:
-			text.setString(inscriptions[1]);
-			break;
-		case Connection:
-			text.setString(inscriptions[2]);
-			break;
-		case Connection2:
-			text.setString(inscriptions[3]);
-			break;
-		default:
-			break;
-		}
-		
-		if (condition == Connection && !all_players_connected) {
-			//thread waitingPlayers([&]()
-			//	{
-					if (WaitingForPlayers(sock_and_addr->sock)) {
-						all_players_connected = true;
-						condition = Connection2;
-					};
-			//	});
+		if (client.IsClientConnected()) {
+			text.setString(L"Ожидание начала игры...");
+			amountOfPlayersPacket.clear();
+			amountOfPlayersPacket = client.GetServerPacket();
+			amountOfPlayersPacket >> amountOfConnectedPlayers;
 		}
 
 		window.clear();
@@ -258,7 +214,7 @@ int DrawingConnection() {
 		{
 			back.setScale(0.25, 0.25);
 			back.setPosition(18, 18);
-			if (Mouse::isButtonPressed(Mouse::Left)) { 
+			if (Mouse::isButtonPressed(Mouse::Left) && !client.IsClientConnected()) {
 				backPressed = true;
 			};
 		}
@@ -267,16 +223,20 @@ int DrawingConnection() {
 			back.setScale(0.2, 0.2);
 			back.setPosition(30, 30);
 		}
-		if (Keyboard::isKeyPressed(Keyboard::BackSpace)) backPressed = true;
+		if (Keyboard::isKeyPressed(Keyboard::BackSpace) && !client.IsClientConnected()) backPressed = true;
 
-		if (all_players_connected) { 
-			tryingConnect.join();
-			return sock_and_addr->sock; 
+		if (amountOfConnectedPlayers == 2) {
+			thread.wait();
+			isAllPlayersConnected = true;
+			break;
 		}
-
 	}
-	tryingConnect.join();
-	return NULL;
+
+	if (isAllPlayersConnected) return true;
+	else {
+		thread.terminate();
+		return false;
+	}
 }
 
 
@@ -322,7 +282,7 @@ void drawingRules(Sprite menuBackground)
 	}
 }
 
-void drawingWinOrLose(bool& is_the_end_of_play, bool& is_the_player_death, bool& is_the_end_of_program, bool win_or_Lose)
+void drawingWinOrLose(bool& is_the_player_death, bool& is_the_end_of_program)
 {
 	bool flag = false;
 	Text text("", font);
@@ -336,7 +296,7 @@ void drawingWinOrLose(bool& is_the_end_of_play, bool& is_the_player_death, bool&
 				window.close();
 		}
 
-		if (!win_or_Lose) {
+		if (is_the_player_death) {
 			window.clear(Color(240, 128, 128));
 			text.setString(L"Вас съели!");
 			text.setCharacterSize(150);
@@ -358,12 +318,9 @@ void drawingWinOrLose(bool& is_the_end_of_play, bool& is_the_player_death, bool&
 		window.setView(view);
 		window.draw(text);
 
-		text.setString(L"Нажмите R чтобы начать новую игру");
 		text.setCharacterSize(40);
 		text.setFillColor(Color::Black);
 		text.setOutlineThickness(0);
-		text.setPosition(view.getCenter().x - 300, view.getCenter().y - 70);
-		window.draw(text);
 
 		text.setString(L"Нажмите пробел чтобы вернуться в меню");
 		text.setPosition(view.getCenter().x - 300, view.getCenter().y);
@@ -375,21 +332,14 @@ void drawingWinOrLose(bool& is_the_end_of_play, bool& is_the_player_death, bool&
 
 		window.display();
 
-		if (Keyboard::isKeyPressed(Keyboard::R))
-		{
-			is_the_end_of_play = false;
-			flag = true;
-		}
 		if (Keyboard::isKeyPressed(Keyboard::Space))
 		{
-			is_the_end_of_play = true;
 			flag = true;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Escape))
 		{
 			is_the_end_of_program = true;
-			is_the_end_of_play = true;
-			is_the_player_death = true;
+			//is_the_player_death = true;
 			flag = true;
 		}
 	}
