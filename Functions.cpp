@@ -89,7 +89,7 @@ int drawingMenu() {
 			if (event.type == Event::Closed)
 				window.close();
 		}
-
+		
 		window.clear();
 		window.draw(menuBackground);
 		window.draw(menu);

@@ -3,14 +3,14 @@
 void Client::ConnectToServer()
 {
 	//std::string ipAddressString = "192.168.111.70";
-	//sf::IpAddress serverIp("192.168.111.70");
-	sf::IpAddress serverIp = sf::IpAddress::getLocalAddress();
+	sf::IpAddress serverIp("127.0.0.1");
+	//sf::IpAddress serverIp = sf::IpAddress::getLocalAddress();
 	sf::TcpSocket* socketTemp = new sf::TcpSocket;
 	socket = socketTemp;
 
 	sf::Socket::Status status = sf::Socket::Error;
 
-	unsigned short serverPort = 8888; // Порт сервера
+	unsigned short serverPort = 8888; 
 
 	while (status != sf::Socket::Done) {
 
